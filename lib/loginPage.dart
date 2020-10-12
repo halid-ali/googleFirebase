@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:googleFirebase/errorHandler.dart';
 import 'package:googleFirebase/homePage.dart';
+import 'package:googleFirebase/login/loginMethod.dart';
 import 'package:googleFirebase/messageError.dart';
 import 'package:googleFirebase/messageSuccess.dart';
 import 'package:googleFirebase/registerPage.dart';
@@ -25,8 +26,6 @@ class _LoginPageState extends State<LoginPage> {
 
   final _emailIdController = TextEditingController(text: '');
   final _passwordController = TextEditingController(text: '');
-
-  bool isGoogleSignIn = false;
 
   String _emailId;
   String _password;
@@ -134,13 +133,9 @@ class _LoginPageState extends State<LoginPage> {
                     (successMessage != ''
                         ? SuccessMessage(successMessage)
                         : Container()),
-                    (!isGoogleSignIn
-                        ? RaisedButton(
-                            child: Text('Google Login'),
-                            onPressed: onGoogleLoginPressed)
-                        : RaisedButton(
-                            child: Text('Google Logout'),
-                            onPressed: onGoogleLogoutPressed))
+                    RaisedButton(
+                        child: Text('Google Login'),
+                        onPressed: onGoogleLoginPressed)
                   ],
                 ),
               ),
@@ -214,13 +209,13 @@ class _LoginPageState extends State<LoginPage> {
         if (user != null) {
           print('Logged in successfully.');
           setState(() {
-            SessionDataSaver(SessionData(user.email, user.uid))
-                .saveSession(context);
+            SessionDataSaver(
+              SessionData(user.email, user.uid, LoginMethod.email),
+            ).saveSession(context);
             successMessage =
                 'Logged in successfully.\nYou can now navigate to Home Page.';
           });
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => HomePage()));
+          navigateToHomePage();
         } else {
           print('Error while Email login.');
         }
@@ -229,12 +224,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   onRegisterButtonPressed() {
-    Navigator.pushReplacement(
-      context,
-      new MaterialPageRoute(
-        builder: (context) => RegisterPage(),
-      ),
-    );
+    navigateToRegisterPage();
   }
 
   onGoogleLoginPressed() {
@@ -242,24 +232,26 @@ class _LoginPageState extends State<LoginPage> {
       if (user != null) {
         print('Logged in successfully.');
         setState(() {
-          isGoogleSignIn = true;
+          SessionDataSaver(
+            SessionData(user.email, user.uid, LoginMethod.google),
+          ).saveSession(context);
           successMessage =
               'Logged in successfully.\nEmail: ${user.email}\nYou can now navigate to Home Page';
         });
+        navigateToHomePage();
       } else {
         print('Error while Google login.');
       }
     });
   }
 
-  onGoogleLogoutPressed() {
-    googleSignOut().then((response) {
-      if (response) {
-        setState(() {
-          isGoogleSignIn = false;
-          successMessage = '';
-        });
-      }
-    });
+  navigateToRegisterPage() {
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => RegisterPage()));
+  }
+
+  navigateToHomePage() {
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => HomePage()));
   }
 }

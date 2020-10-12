@@ -11,6 +11,7 @@ class SessionDataRetriever extends StatelessWidget {
           if (snapshot.hasData) {
             var uid = snapshot.data['uid'];
             var email = snapshot.data['email'];
+            var method = snapshot.data['method'];
             return Column(
               children: [
                 Text(
@@ -19,6 +20,10 @@ class SessionDataRetriever extends StatelessWidget {
                 ),
                 Text(
                   'UID: $uid',
+                  style: TextStyle(fontSize: 21),
+                ),
+                Text(
+                  'Method: $method',
                   style: TextStyle(fontSize: 21),
                 ),
               ],

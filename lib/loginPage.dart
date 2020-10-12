@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:googleFirebase/errorHandler.dart';
+import 'package:googleFirebase/homePage.dart';
 import 'package:googleFirebase/messageError.dart';
 import 'package:googleFirebase/messageSuccess.dart';
 import 'package:googleFirebase/registerPage.dart';
@@ -214,6 +215,8 @@ class _LoginPageState extends State<LoginPage> {
             successMessage =
                 'Logged in successfully.\nYou can now navigate to Home Page.';
           });
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => HomePage()));
         } else {
           print('Error while Email login.');
         }

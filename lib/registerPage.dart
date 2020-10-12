@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:googleFirebase/errorHandler.dart';
 import 'package:googleFirebase/loginPage.dart';
+import 'package:googleFirebase/messageError.dart';
+import 'package:googleFirebase/messageSuccess.dart';
 import 'package:googleFirebase/validator.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -42,7 +44,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   children: <Widget>[
                     Form(
                       key: _formStateKey,
-                      autovalidateMode: AutovalidateMode.always,
+                      autovalidate: true,
                       child: Column(
                         children: <Widget>[
                           Padding(
@@ -127,10 +129,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                           ),
                           (errorMessage != ''
-                              ? Text(
-                                  errorMessage,
-                                  style: TextStyle(color: Colors.red),
-                                )
+                              ? ErrorMessage(errorMessage)
                               : Container()),
                           ButtonBar(
                             children: <Widget>[
@@ -152,12 +151,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             ],
                           ),
                           (successMessage != ''
-                              ? Text(
-                                  successMessage,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontSize: 24, color: Colors.green),
-                                )
+                              ? SuccessMessage(successMessage)
                               : Container()),
                         ],
                       ),

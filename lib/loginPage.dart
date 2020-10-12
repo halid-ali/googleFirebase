@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:googleFirebase/errorHandler.dart';
+import 'package:googleFirebase/messageError.dart';
+import 'package:googleFirebase/messageSuccess.dart';
 import 'package:googleFirebase/registerPage.dart';
 import 'package:googleFirebase/validator.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -45,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
                   children: <Widget>[
                     Form(
                       key: _formStateKey,
-                      autovalidateMode: AutovalidateMode.always,
+                      autovalidate: true,
                       child: Column(
                         children: <Widget>[
                           Padding(
@@ -106,10 +108,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     (errorMessage != ''
-                        ? Text(
-                            errorMessage,
-                            style: TextStyle(color: Colors.red),
-                          )
+                        ? ErrorMessage(errorMessage)
                         : Container()),
                     ButtonBar(
                       children: <Widget>[
@@ -130,11 +129,7 @@ class _LoginPageState extends State<LoginPage> {
                       ],
                     ),
                     (successMessage != ''
-                        ? Text(
-                            successMessage,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 18, color: Colors.green),
-                          )
+                        ? SuccessMessage(successMessage)
                         : Container()),
                     (!isGoogleSignIn
                         ? RaisedButton(
@@ -220,7 +215,7 @@ class _LoginPageState extends State<LoginPage> {
                 'Logged in successfully.\nYou can now navigate to Home Page.';
           });
         } else {
-          print('Error while login.');
+          print('Error while Email login.');
         }
       });
     }
@@ -245,7 +240,7 @@ class _LoginPageState extends State<LoginPage> {
               'Logged in successfully.\nEmail: ${user.email}\nYou can now navigate to Home Page';
         });
       } else {
-        print('Error while login.');
+        print('Error while Google login.');
       }
     });
   }

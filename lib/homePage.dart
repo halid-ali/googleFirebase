@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:googleFirebase/sessionDataRetriever.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -8,7 +9,7 @@ class HomePage extends StatelessWidget {
         title: Text('Welcome to Home Page'),
       ),
       body: Center(
-        child: Container(),
+        child: SessionDataRetriever(),
       ),
     );
   }

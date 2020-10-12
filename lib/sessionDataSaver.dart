@@ -21,6 +21,5 @@ class SessionDataSaver extends StatelessWidget {
 
   Future<void> saveSession(context) async {
     await FlutterSession().set('userData', sessionData);
-    Navigator.push(context, MaterialPageRoute(builder: (context) => null));
   }
 }

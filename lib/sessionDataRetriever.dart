@@ -8,9 +8,24 @@ class SessionDataRetriever extends StatelessWidget {
       child: FutureBuilder(
         future: FlutterSession().get('userData'),
         builder: (context, snapshot) {
-          return Text(snapshot.hasData
-              ? snapshot.data['uid'] + ' | ' + snapshot.data['email']
-              : 'Loading');
+          if (snapshot.hasData) {
+            var uid = snapshot.data['uid'];
+            var email = snapshot.data['email'];
+            return Column(
+              children: [
+                Text(
+                  'Email: $email',
+                  style: TextStyle(fontSize: 21),
+                ),
+                Text(
+                  'UID: $uid',
+                  style: TextStyle(fontSize: 21),
+                ),
+              ],
+            );
+          } else {
+            return Text('Loading');
+          }
         },
       ),
     );

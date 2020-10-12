@@ -6,6 +6,8 @@ import 'package:googleFirebase/homePage.dart';
 import 'package:googleFirebase/messageError.dart';
 import 'package:googleFirebase/messageSuccess.dart';
 import 'package:googleFirebase/registerPage.dart';
+import 'package:googleFirebase/sessionData.dart';
+import 'package:googleFirebase/sessionDataSaver.dart';
 import 'package:googleFirebase/validator.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -212,6 +214,8 @@ class _LoginPageState extends State<LoginPage> {
         if (user != null) {
           print('Logged in successfully.');
           setState(() {
+            SessionDataSaver(SessionData(user.email, user.uid))
+                .saveSession(context);
             successMessage =
                 'Logged in successfully.\nYou can now navigate to Home Page.';
           });
